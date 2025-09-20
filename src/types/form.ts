@@ -1,13 +1,4 @@
-export interface FormData {
-  name: string;
-  email: string;
-  experience: string;
-  github: string;
-}
+import { z } from 'zod';
+import { formSchema } from '../api/schema/formSchema';
 
-export interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  title: string;
-}
+export type FormData = z.infer<typeof formSchema>;

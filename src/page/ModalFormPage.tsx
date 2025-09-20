@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import Modal from '../components/Modal';
 import FormModal from '../components/FormModal';
 import type { FormData } from '../types/form';
 
@@ -11,17 +10,20 @@ export default function ModalFormPage() {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const handleModalClose = (data?: FormData) => {
     setIsModalOpen(false);
+
     // 모달 닫힐 때 트리거 버튼으로 포커스 복귀
     if (triggerButtonRef.current) {
       triggerButtonRef.current.focus();
     }
-  };
 
-  const handleFormSubmit = (data: FormData) => {
-    console.log('Form submitted:', data);
-    closeModal();
+    // 데이터가 있으면 제출, 없으면 취소
+    if (data) {
+      console.log('Form submitted:', data);
+    } else {
+      console.log('Form cancelled');
+    }
   };
 
   return (
@@ -36,9 +38,7 @@ export default function ModalFormPage() {
         </button>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} title='신청 폼'>
-        <FormModal onSubmit={handleFormSubmit} onCancel={closeModal} />
-      </Modal>
+      <FormModal isOpen={isModalOpen} onClose={handleModalClose} />
     </div>
   );
 }
